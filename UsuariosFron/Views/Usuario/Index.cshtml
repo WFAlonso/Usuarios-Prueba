@@ -1,0 +1,74 @@
+﻿@model IEnumerable<UsuariosFron.Models.Usuario>
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Lista de Usuarios</h1>
+
+<p>
+    <a asp-action="Create">Crear Usuario</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+                ID
+            </th>*@
+            <th>
+                Nombre
+            </th>
+            <th>
+                Fecha Nacimiento
+            </th>
+            <th>
+                Sexo
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaNacimiento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sexo)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    <a href="javascript:BorrarUsuario(@item.Id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    function BorrarUsuario(ids) {
+
+         if (confirm("Estas seguro de eliminarlo?")) {
+            url = "@Url.Content("~/Usuario/Delete")" + "/"+ids;
+
+            $.post(url, function (data) {
+
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/Usuario/Index")"
+                } else {
+                    alert("Ocurrio un error")
+                }
+
+            })
+        }
+    }
+</script>
